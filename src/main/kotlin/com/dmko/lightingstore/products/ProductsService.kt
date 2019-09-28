@@ -2,6 +2,7 @@ package com.dmko.lightingstore.products
 
 import com.dmko.lightingstore.cart.CartDao
 import com.dmko.lightingstore.favourite.FavouriteDao
+import com.dmko.lightingstore.orders.OrdersDao
 import com.dmko.lightingstore.products.entity.Product
 import com.dmko.lightingstore.products.entity.ProductImage
 import com.dmko.lightingstore.products.entity.ProductResponse
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 class ProductsService(
         private val productsDao: ProductsDao,
         private val cartDao: CartDao,
-        private val favouriteDao: FavouriteDao
+        private val favouriteDao: FavouriteDao,
+        private val ordersDao: OrdersDao
 ) {
 
     fun getProductsFromCategory(userId: Long, categoryId: Long): List<ProductResponse> {
@@ -26,6 +28,11 @@ class ProductsService(
 
     fun getProductsFromFavourite(userId: Long): List<ProductResponse> {
         val products = favouriteDao.getProducts(userId)
+        return getProductResponses(userId, products)
+    }
+
+    fun getProductsFromOrder(userId: Long, orderId: Long): List<ProductResponse> {
+        val products = ordersDao.getProducts(orderId)
         return getProductResponses(userId, products)
     }
 

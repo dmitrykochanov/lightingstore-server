@@ -60,7 +60,7 @@ create table products
     color       varchar(6),
     width       varchar(255),
     height      varchar(255),
-    lamp_count   int,
+    lamp_count  int,
     constraint products_categories_fk foreign key (category_id) references categories (id) on delete cascade
 );
 
@@ -103,11 +103,9 @@ create table orders
 
 create table products_orders
 (
-    user_id    bigint,
     product_id bigint,
     order_id   bigint,
-    constraint products_orders_pk primary key (user_id, product_id, order_id),
-    constraint products_orders_users_fk foreign key (user_id) references users (id) on delete cascade,
+    constraint products_orders_pk primary key (product_id, order_id),
     constraint products_orders_products_fk foreign key (product_id) references products (id) on delete cascade,
     constraint products_orders_orders_fk foreign key (order_id) references orders (id) on delete cascade
 );
