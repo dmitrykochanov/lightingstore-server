@@ -30,3 +30,12 @@ insert into products (category_id, name, description, price, count, material, co
 values (2, 'product3', 'description3', 5400, 100, 'material3', 'ffffff', 100, 100, 10);
 insert into products (category_id, name, description, price, count, material, color, width, height, lamp_count)
 values (3, 'product4', 'description4', 5400, 100, 'material4', 'ffffff', 100, 100, 10);
+
+insert into cart(user_id, product_id)
+values (1, 2);
+insert into cart(user_id, product_id)
+values (1, 3);
+insert into cart(user_id, product_id)
+values (2, 1);
+insert into cart(user_id, product_id)
+values (2, 2);

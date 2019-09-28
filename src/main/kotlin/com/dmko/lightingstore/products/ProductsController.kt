@@ -1,14 +1,16 @@
 package com.dmko.lightingstore.products
 
-import com.dmko.lightingstore.products.entity.Product
 import com.dmko.lightingstore.products.entity.ProductRequest
 import com.dmko.lightingstore.products.entity.ProductResponse
+import com.dmko.lightingstore.users.entity.UserEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class ProductsController(
-        private val productsDao: ProductsDao
+        private val productsDao: ProductsDao,
+        private val productsService: ProductsService
 ) {
 
     @CrossOrigin
@@ -19,31 +21,10 @@ class ProductsController(
     @CrossOrigin
     @GetMapping("/products/{categoryId}")
     @PreAuthorize("hasAuthority('USER')")
-    fun getProducts(@PathVariable categoryId: Long): List<ProductResponse> {
-        val products = productsDao.getProducts(categoryId)
-
-        return products.map { product ->
-            ProductResponse(
-                    id = product.id,
-                    categoryId = product.categoryId,
-                    name = product.name,
-                    description = product.description,
-                    price = product.price,
-                    count = product.count,
-                    // TODO
-                    images = emptyList(),
-                    // TODO
-                    inFavourites = false,
-                    // TODO
-                    inCart = false,
-                    material = product.material,
-                    color = product.color,
-                    width = product.width,
-                    height = product.height,
-                    lampCount = product.lampCount
-            )
-        }
-    }
+    fun getProducts(
+            @PathVariable categoryId: Long,
+            @AuthenticationPrincipal user: UserEntity
+    ): List<ProductResponse> = productsService.getProductsFromCategory(user.id, categoryId)
 
     @CrossOrigin
     @PostMapping("/products")
