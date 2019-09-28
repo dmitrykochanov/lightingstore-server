@@ -1,6 +1,7 @@
 package com.dmko.lightingstore.products
 
 import com.dmko.lightingstore.cart.CartDao
+import com.dmko.lightingstore.favourite.FavouriteDao
 import com.dmko.lightingstore.products.entity.Product
 import com.dmko.lightingstore.products.entity.ProductResponse
 import org.springframework.stereotype.Service
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class ProductsService(
         private val productsDao: ProductsDao,
-        private val cartDao: CartDao
+        private val cartDao: CartDao,
+        private val favouriteDao: FavouriteDao
 ) {
 
     fun getProductsFromCategory(userId: Long, categoryId: Long): List<ProductResponse> {
@@ -21,14 +23,20 @@ class ProductsService(
         return getProductResponses(userId, products)
     }
 
+    fun getProductsFromFavourite(userId: Long): List<ProductResponse> {
+        val products = favouriteDao.getProducts(userId)
+        return getProductResponses(userId, products)
+    }
+
     private fun getProductResponses(userId: Long, products: List<Product>): List<ProductResponse> {
         val productsFromCart = cartDao.getProducts(userId)
+        val productsFromFavourite = favouriteDao.getProducts(userId)
         return products.map { product ->
             mapProductResponse(
                     product = product,
                     // TODO
                     images = emptyList(),
-                    inFavourites = false,
+                    inFavourites = productsFromFavourite.any { it.id == product.id },
                     inCart = productsFromCart.any { it.id == product.id }
             )
         }

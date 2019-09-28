@@ -39,3 +39,12 @@ insert into cart(user_id, product_id)
 values (2, 1);
 insert into cart(user_id, product_id)
 values (2, 2);
+
+insert into favourite(user_id, product_id)
+values (1, 2);
+insert into favourite(user_id, product_id)
+values (1, 3);
+insert into favourite(user_id, product_id)
+values (2, 1);
+insert into favourite(user_id, product_id)
+values (2, 2);
