@@ -2,11 +2,9 @@ package com.dmko.lightingstore.products
 
 import com.dmko.lightingstore.products.entity.Category
 import com.dmko.lightingstore.products.entity.Product
+import com.dmko.lightingstore.products.entity.ProductImage
 import com.dmko.lightingstore.products.entity.ProductRequest
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Select
-import org.apache.ibatis.annotations.Update
+import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 
 @Mapper
@@ -27,4 +25,16 @@ interface ProductsDao {
         price = #{price}, count = #{count}, material = #{material}, color = #{color}, width = #{width}, height = #{height},
          lamp_count = #{lampCount} WHERE id=#{id}""")
     fun updateProduct(productRequest: ProductRequest)
+
+    @Select("SELECT product_id, url FROM product_images WHERE product_id = #{productId}")
+    fun getProductImages(productId: Long): List<ProductImage>
+
+    @Insert("INSERT INTO product_images(product_id, url) VALUES(#{productId}, #{url})")
+    fun insertProductImage(productImages: ProductImage)
+
+    @Delete("DELETE FROM product_images WHERE product_id = #{productId}")
+    fun deleteProductImages(productId: Long)
+
+    @Select("SELECT LAST_INSERT_ID()")
+    fun getLastInsertId(): Long
 }
