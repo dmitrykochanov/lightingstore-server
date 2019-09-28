@@ -54,13 +54,13 @@ create table products
     category_id bigint       not null,
     name        varchar(255) not null,
     description text         not null,
-    price       float        not null,
+    price       real         not null,
     count       int          not null,
     material    varchar(255),
     color       varchar(6),
-    width       int,
-    height      int,
-    lampCount   int,
+    width       varchar(255),
+    height      varchar(255),
+    lamp_count   int,
     constraint products_categories_fk foreign key (category_id) references categories (id) on delete cascade
 );
 

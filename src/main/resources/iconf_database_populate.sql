@@ -14,3 +14,19 @@ insert into users_roles (user_id, role_id)
 values (2, 1);
 insert into users_roles (user_id, role_id)
 values (2, 2);
+
+insert into categories (id, name)
+values (1, 'category1');
+insert into categories (id, name)
+values (2, 'category2');
+insert into categories (id, name)
+values (3, 'category3');
+
+insert into products (category_id, name, description, price, count, material, color, width, height, lamp_count)
+values (1, 'product1', 'description1', 5400, 100, 'material1', 'ffffff', 100, 100, 10);
+insert into products (category_id, name, description, price, count)
+values (1, 'product2', 'description2', 5400, 100);
+insert into products (category_id, name, description, price, count, material, color, width, height, lamp_count)
+values (2, 'product3', 'description3', 5400, 100, 'material3', 'ffffff', 100, 100, 10);
+insert into products (category_id, name, description, price, count, material, color, width, height, lamp_count)
+values (3, 'product4', 'description4', 5400, 100, 'material4', 'ffffff', 100, 100, 10);
