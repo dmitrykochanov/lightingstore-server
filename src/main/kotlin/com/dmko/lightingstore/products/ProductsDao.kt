@@ -17,9 +17,11 @@ interface ProductsDao {
     @Select("SELECT * FROM products WHERE category_id = #{categoryId} ")
     fun getProducts(categoryId: Long): List<Product>
 
-    @Insert("""INSERT INTO products(category_id, name, description, price, count, material, color, width, height, lamp_count)
-        VALUES(#{categoryId}, #{name}, #{description}, #{price}, #{count}, #{material}, #{color}, #{width}, #{height}, #{lampCount})""")
-    fun insertProduct(productRequest: ProductRequest)
+    @Select("""INSERT INTO products(category_id, name, description, price, count, material, color, width, height, lamp_count)
+        VALUES(#{categoryId}, #{name}, #{description}, #{price}, #{count}, #{material}, #{color}, #{width}, #{height}, #{lampCount})
+        RETURNING id""")
+    @Options(flushCache = Options.FlushCachePolicy.TRUE)
+    fun insertProduct(productRequest: ProductRequest): Long
 
     @Update("""UPDATE products SET category_id = #{categoryId}, name = #{name}, description = #{description}, 
         price = #{price}, count = #{count}, material = #{material}, color = #{color}, width = #{width}, height = #{height},
@@ -34,7 +36,4 @@ interface ProductsDao {
 
     @Delete("DELETE FROM product_images WHERE product_id = #{productId}")
     fun deleteProductImages(productId: Long)
-
-    @Select("SELECT LAST_INSERT_ID()")
-    fun getLastInsertId(): Long
 }

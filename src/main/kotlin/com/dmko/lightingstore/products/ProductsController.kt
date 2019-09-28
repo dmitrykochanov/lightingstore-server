@@ -31,8 +31,7 @@ class ProductsController(
     @PostMapping("/products")
     @PreAuthorize("hasAuthority('ADMIN')")
     fun insertProduct(@RequestBody productRequest: ProductRequest) {
-        productsDao.insertProduct(productRequest)
-        val productId = productsDao.getLastInsertId()
+        val productId = productsDao.insertProduct(productRequest)
 
         productRequest.images.forEach { url ->
             val productImage = ProductImage(productId, url)
