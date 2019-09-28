@@ -1,4 +1,4 @@
-package com.dmko.lightingstore.users.entities
+package com.dmko.lightingstore.users.entity
 
 data class UserEntity(
         val id: Long = 0,

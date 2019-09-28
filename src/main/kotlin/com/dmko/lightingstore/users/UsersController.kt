@@ -1,8 +1,8 @@
 package com.dmko.lightingstore.users
 
-import com.dmko.lightingstore.users.entities.AuthRequest
-import com.dmko.lightingstore.users.entities.AuthResponse
-import com.dmko.lightingstore.users.entities.UserEntity
+import com.dmko.lightingstore.users.entity.AuthRequest
+import com.dmko.lightingstore.users.entity.AuthResponse
+import com.dmko.lightingstore.users.entity.UserEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCrypt

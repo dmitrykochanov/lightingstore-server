@@ -1,7 +1,7 @@
 package com.dmko.lightingstore.users.auth
 
 import com.dmko.lightingstore.users.UsersDao
-import com.dmko.lightingstore.users.entities.UserEntity
+import com.dmko.lightingstore.users.entity.UserEntity
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

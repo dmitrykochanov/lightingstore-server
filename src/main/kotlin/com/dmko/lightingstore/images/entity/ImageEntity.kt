@@ -1,4 +1,4 @@
-package com.dmko.lightingstore.images.entities
+package com.dmko.lightingstore.images.entity
 
 data class ImageEntity(
         val id: String,

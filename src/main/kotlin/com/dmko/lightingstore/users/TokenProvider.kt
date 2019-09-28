@@ -3,9 +3,9 @@ package com.dmko.lightingstore.users
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.dmko.lightingstore.users.auth.AuthConstants
-import com.dmko.lightingstore.users.entities.AuthResponse
-import com.dmko.lightingstore.users.entities.RoleEntity
-import com.dmko.lightingstore.users.entities.UserEntity
+import com.dmko.lightingstore.users.entity.AuthResponse
+import com.dmko.lightingstore.users.entity.RoleEntity
+import com.dmko.lightingstore.users.entity.UserEntity
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

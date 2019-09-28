@@ -1,6 +1,6 @@
 package com.dmko.lightingstore.images
 
-import com.dmko.lightingstore.images.entities.ImageEntity
+import com.dmko.lightingstore.images.entity.ImageEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

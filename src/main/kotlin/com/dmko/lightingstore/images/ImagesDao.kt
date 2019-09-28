@@ -1,6 +1,6 @@
 package com.dmko.lightingstore.images
 
-import com.dmko.lightingstore.images.entities.ImageEntity
+import com.dmko.lightingstore.images.entity.ImageEntity
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select

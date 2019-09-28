@@ -1,7 +1,7 @@
 package com.dmko.lightingstore.users
 
-import com.dmko.lightingstore.users.entities.RoleEntity
-import com.dmko.lightingstore.users.entities.UserEntity
+import com.dmko.lightingstore.users.entity.RoleEntity
+import com.dmko.lightingstore.users.entity.UserEntity
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
