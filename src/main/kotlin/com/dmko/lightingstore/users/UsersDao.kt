@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UsersDao {
 
-    @Insert("""INSERT INTO users(login, password)
-        VALUES(#{login}, #{password})""")
+    @Insert("""INSERT INTO users(login, name, password)
+        VALUES(#{login}, #{name}, #{password})""")
     fun insertUser(userEntity: UserEntity)
 
     @Select("SELECT * FROM users WHERE login = #{login} LIMIT 1")

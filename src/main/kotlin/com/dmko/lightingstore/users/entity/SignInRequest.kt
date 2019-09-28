@@ -1,6 +1,6 @@
 package com.dmko.lightingstore.users.entity
 
-data class AuthRequest(
+data class SignInRequest(
         val login: String,
         val password: String
 )

@@ -1,7 +1,6 @@
 package com.dmko.lightingstore.users.entity
 
-data class UserEntity(
-        val id: Long = 0,
+data class SignUpRequest(
         val login: String,
         val name: String,
         val password: String
