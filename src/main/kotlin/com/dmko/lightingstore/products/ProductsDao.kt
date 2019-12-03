@@ -14,8 +14,11 @@ interface ProductsDao {
     @Select("SELECT * FROM categories")
     fun getCategories(): List<Category>
 
-    @Select("SELECT * FROM products WHERE category_id = #{categoryId} ")
+    @Select("SELECT * FROM products WHERE category_id = #{categoryId}")
     fun getProducts(categoryId: Long): List<Product>
+
+    @Select("SELECT * FROM products")
+    fun getAllProducts(): List<Product>
 
     @Select("""INSERT INTO products(category_id, name, description, price, count, material, color, width, height, lamp_count)
         VALUES(#{categoryId}, #{name}, #{description}, #{price}, #{count}, #{material}, #{color}, #{width}, #{height}, #{lampCount})

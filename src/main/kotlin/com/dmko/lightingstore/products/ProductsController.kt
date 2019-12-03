@@ -28,6 +28,13 @@ class ProductsController(
     ): List<ProductResponse> = productsService.getProductsFromCategory(user.id, categoryId)
 
     @CrossOrigin
+    @GetMapping("/products")
+    @PreAuthorize("hasAuthority('USER')")
+    fun getProducts(
+            @AuthenticationPrincipal user: UserEntity
+    ): List<ProductResponse> = productsService.getProducts(user.id)
+
+    @CrossOrigin
     @PostMapping("/products")
     @PreAuthorize("hasAuthority('ADMIN')")
     fun insertProduct(@RequestBody productRequest: ProductRequest) {

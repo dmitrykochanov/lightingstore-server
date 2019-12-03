@@ -15,11 +15,13 @@ class FavouriteController(
         private val productsService: ProductsService
 ) {
 
+    @CrossOrigin
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")
     fun getProducts(@AuthenticationPrincipal user: UserEntity): List<ProductResponse> =
             productsService.getProductsFromFavourite(user.id)
 
+    @CrossOrigin
     @PutMapping("/{productId}")
     @PreAuthorize("hasAuthority('USER')")
     fun addProduct(
@@ -30,6 +32,7 @@ class FavouriteController(
         favouriteDao.insertProduct(favourite)
     }
 
+    @CrossOrigin
     @DeleteMapping("/{productId}")
     @PreAuthorize("hasAuthority('USER')")
     fun removeProduct(

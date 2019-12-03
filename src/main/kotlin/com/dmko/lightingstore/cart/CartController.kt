@@ -4,7 +4,6 @@ import com.dmko.lightingstore.cart.entity.Cart
 import com.dmko.lightingstore.products.ProductsService
 import com.dmko.lightingstore.products.entity.ProductResponse
 import com.dmko.lightingstore.users.entity.UserEntity
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -16,11 +15,13 @@ class CartController(
         private val productsService: ProductsService
 ) {
 
+    @CrossOrigin
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")
     fun getProducts(@AuthenticationPrincipal user: UserEntity): List<ProductResponse> =
             productsService.getProductsFromCart(user.id)
 
+    @CrossOrigin
     @PutMapping("/{productId}")
     @PreAuthorize("hasAuthority('USER')")
     fun addProduct(
@@ -31,6 +32,7 @@ class CartController(
         cartDao.insertProduct(cart)
     }
 
+    @CrossOrigin
     @DeleteMapping("/{productId}")
     @PreAuthorize("hasAuthority('USER')")
     fun removeProduct(

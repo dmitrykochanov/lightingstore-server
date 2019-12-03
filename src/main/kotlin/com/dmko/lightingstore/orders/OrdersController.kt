@@ -21,6 +21,7 @@ class OrdersController(
         private val productsService: ProductsService
 ) {
 
+    @CrossOrigin
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")
     fun getOrders(@AuthenticationPrincipal user: UserEntity): List<OrderResponse> {
@@ -38,6 +39,7 @@ class OrdersController(
         }
     }
 
+    @CrossOrigin
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
     fun getAllOrders(): List<OrderResponse> {
@@ -54,6 +56,7 @@ class OrdersController(
         }
     }
 
+    @CrossOrigin
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
     fun insertOrder(
@@ -73,6 +76,7 @@ class OrdersController(
         }
     }
 
+    @CrossOrigin
     @PutMapping("/{orderId}/status/{status}")
     @PreAuthorize("hasAuthority('USER')")
     fun updateOrderStatus(
@@ -94,6 +98,7 @@ class OrdersController(
         }
     }
 
+    @CrossOrigin
     @DeleteMapping("/{orderId}")
     @PreAuthorize("hasAuthority('USER')")
     fun deleteOrder(

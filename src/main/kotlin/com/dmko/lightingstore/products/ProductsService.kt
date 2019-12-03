@@ -16,6 +16,11 @@ class ProductsService(
         private val ordersDao: OrdersDao
 ) {
 
+    fun getProducts(userId: Long): List<ProductResponse> {
+        val products = productsDao.getAllProducts()
+        return getProductResponses(userId, products)
+    }
+
     fun getProductsFromCategory(userId: Long, categoryId: Long): List<ProductResponse> {
         val products = productsDao.getProducts(categoryId)
         return getProductResponses(userId, products)
