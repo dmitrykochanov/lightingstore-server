@@ -1,17 +1,15 @@
 package com.dmko.lightingstore.users
 
-import com.dmko.lightingstore.users.entity.SignInRequest
-import com.dmko.lightingstore.users.entity.AuthResponse
-import com.dmko.lightingstore.users.entity.SignUpRequest
-import com.dmko.lightingstore.users.entity.UserEntity
+import com.dmko.lightingstore.users.entity.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/users")
 class UsersController(
         private val usersDao: UsersDao,
         private val bCryptPasswordEncoder: BCryptPasswordEncoder,
@@ -19,11 +17,12 @@ class UsersController(
 ) {
 
     @CrossOrigin
-    @PostMapping("/sign-up")
+    @PostMapping("/users/sign-up")
     fun signUp(@RequestBody signUpRequest: SignUpRequest): AuthResponse {
         val newUser = UserEntity(
                 login = signUpRequest.login,
                 name = signUpRequest.name,
+                email = signUpRequest.email,
                 password = bCryptPasswordEncoder.encode(signUpRequest.password)
         )
         usersDao.insertUser(newUser)
@@ -35,7 +34,7 @@ class UsersController(
     }
 
     @CrossOrigin
-    @PostMapping("/sign-in")
+    @PostMapping("/users/sign-in")
     fun signIn(@RequestBody signInRequest: SignInRequest): ResponseEntity<AuthResponse> {
         val user = usersDao.findUserByLogin(signInRequest.login)
 
@@ -45,5 +44,18 @@ class UsersController(
         } else {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @CrossOrigin
+    @GetMapping("/user")
+    @PreAuthorize("hasAuthority('USER')")
+    fun getUser(@AuthenticationPrincipal user: UserEntity): UserInfo {
+        val roles = usersDao.getUserRoles(user.id)
+        return UserInfo(
+                login = user.login,
+                name = user.name,
+                email = user.email,
+                roles = roles
+        )
     }
 }

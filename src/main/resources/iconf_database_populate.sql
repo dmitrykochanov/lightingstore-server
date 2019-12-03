@@ -1,7 +1,7 @@
-insert into users(login, name, password)
-values ('user1', 'user', '$2a$10$GZy/3PC0HhY2a3AByoYs1uxYpJ7K59R6tzgpix/VQSOvQQChMrdO.');
-insert into users(login, name, password)
-values ('admin1', 'admin', '$2a$10$maLtWx5w0qollVsT7HANV.dffyvjdAodXJH.AuQAp.92VdyURdhQi');
+insert into users(login, name, email, password)
+values ('user1', 'user', 'user1@test.com', '$2a$10$GZy/3PC0HhY2a3AByoYs1uxYpJ7K59R6tzgpix/VQSOvQQChMrdO.');
+insert into users(login, name, email, password)
+values ('admin1', 'admin', 'admin1@test.com', '$2a$10$maLtWx5w0qollVsT7HANV.dffyvjdAodXJH.AuQAp.92VdyURdhQi');
 
 insert into roles (id, name)
 values (1, 'USER');

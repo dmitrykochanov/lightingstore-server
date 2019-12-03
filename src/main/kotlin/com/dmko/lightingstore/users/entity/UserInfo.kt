@@ -1,9 +1,8 @@
 package com.dmko.lightingstore.users.entity
 
-data class UserEntity(
-        val id: Long = 0,
+data class UserInfo(
         val login: String,
         val name: String,
         val email: String,
-        val password: String
+        val roles: List<RoleEntity>
 )

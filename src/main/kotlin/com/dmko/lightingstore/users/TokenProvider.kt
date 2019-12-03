@@ -32,6 +32,7 @@ class TokenProvider(private val usersDao: UsersDao, private val mapper: ObjectMa
         headers.set(AuthConstants.HEADER_STRING, AuthConstants.TOKEN_PREFIX + token)
         return AuthResponse(
                 login = user.login,
+                email = user.email,
                 token = token,
                 roles = roles
         )

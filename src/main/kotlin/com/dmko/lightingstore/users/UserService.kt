@@ -13,7 +13,8 @@ class UserService(
         return UserResponse(
                 id = user.id,
                 name = user.name,
-                login = user.login
+                login = user.login,
+                email = user.email
         )
     }
 }
