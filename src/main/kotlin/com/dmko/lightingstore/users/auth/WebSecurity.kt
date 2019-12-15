@@ -24,6 +24,7 @@ class WebSecurity(
 
     override fun configure(http: HttpSecurity) {
         http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(HttpMethod.POST, "/login").denyAll()
                 .antMatchers(HttpMethod.POST, AuthConstants.SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.POST, AuthConstants.SIGN_IN_URL).permitAll()
