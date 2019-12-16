@@ -7,7 +7,7 @@ data class ProductRequest(
         val description: String,
         val price: Float,
         val count: Int,
-        val images: List<String>,
+        val image: String,
         val material: String? = null,
         val color: String? = null,
         val width: String? = null,

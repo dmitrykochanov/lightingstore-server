@@ -1,6 +1,5 @@
 package com.dmko.lightingstore.products
 
-import com.dmko.lightingstore.products.entity.ProductImage
 import com.dmko.lightingstore.products.entity.ProductRequest
 import com.dmko.lightingstore.products.entity.ProductResponse
 import com.dmko.lightingstore.users.entity.UserEntity
@@ -38,25 +37,13 @@ class ProductsController(
     @PostMapping("/products")
     @PreAuthorize("hasAuthority('ADMIN')")
     fun insertProduct(@RequestBody productRequest: ProductRequest) {
-        val productId = productsDao.insertProduct(productRequest)
-
-        productRequest.images.forEach { url ->
-            val productImage = ProductImage(productId, url)
-            productsDao.insertProductImage(productImage)
-        }
+        productsDao.insertProduct(productRequest)
     }
 
     @CrossOrigin
     @PutMapping("/products")
     @PreAuthorize("hasAuthority('ADMIN')")
     fun updateProduct(@RequestBody productRequest: ProductRequest) {
-        val productId = productRequest.id!!
         productsDao.updateProduct(productRequest)
-
-        productsDao.deleteProductImages(productId)
-        productRequest.images.forEach { url ->
-            val productImage = ProductImage(productId, url)
-            productsDao.insertProductImage(productImage)
-        }
     }
 }

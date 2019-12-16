@@ -2,9 +2,10 @@ package com.dmko.lightingstore.products
 
 import com.dmko.lightingstore.products.entity.Category
 import com.dmko.lightingstore.products.entity.Product
-import com.dmko.lightingstore.products.entity.ProductImage
 import com.dmko.lightingstore.products.entity.ProductRequest
-import org.apache.ibatis.annotations.*
+import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update
 import org.springframework.stereotype.Repository
 
 @Mapper
@@ -20,23 +21,12 @@ interface ProductsDao {
     @Select("SELECT * FROM products")
     fun getAllProducts(): List<Product>
 
-    @Select("""INSERT INTO products(category_id, name, description, price, count, material, color, width, height, lamp_count)
-        VALUES(#{categoryId}, #{name}, #{description}, #{price}, #{count}, #{material}, #{color}, #{width}, #{height}, #{lampCount})
-        RETURNING id""")
-    @Options(flushCache = Options.FlushCachePolicy.TRUE)
-    fun insertProduct(productRequest: ProductRequest): Long
+    @Select("""INSERT INTO products(category_id, name, description, price, count, material, color, width, height, lamp_count, image)
+        VALUES(#{categoryId}, #{name}, #{description}, #{price}, #{count}, #{material}, #{color}, #{width}, #{height}, #{lampCount}, #{image})""")
+    fun insertProduct(productRequest: ProductRequest)
 
     @Update("""UPDATE products SET category_id = #{categoryId}, name = #{name}, description = #{description}, 
         price = #{price}, count = #{count}, material = #{material}, color = #{color}, width = #{width}, height = #{height},
          lamp_count = #{lampCount} WHERE id=#{id}""")
     fun updateProduct(productRequest: ProductRequest)
-
-    @Select("SELECT product_id, url FROM product_images WHERE product_id = #{productId}")
-    fun getProductImages(productId: Long): List<ProductImage>
-
-    @Insert("INSERT INTO product_images(product_id, url) VALUES(#{productId}, #{url})")
-    fun insertProductImage(productImages: ProductImage)
-
-    @Delete("DELETE FROM product_images WHERE product_id = #{productId}")
-    fun deleteProductImages(productId: Long)
 }

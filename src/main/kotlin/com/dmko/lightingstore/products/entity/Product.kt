@@ -11,5 +11,6 @@ data class Product @JvmOverloads constructor(
         val color: String? = null,
         val width: String? = null,
         val height: String? = null,
-        val lampCount: Int? = null
+        val lampCount: Int? = null,
+        val image: String? = null
 )

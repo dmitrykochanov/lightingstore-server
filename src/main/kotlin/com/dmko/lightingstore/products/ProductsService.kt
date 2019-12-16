@@ -4,7 +4,6 @@ import com.dmko.lightingstore.cart.CartDao
 import com.dmko.lightingstore.favourite.FavouriteDao
 import com.dmko.lightingstore.orders.OrdersDao
 import com.dmko.lightingstore.products.entity.Product
-import com.dmko.lightingstore.products.entity.ProductImage
 import com.dmko.lightingstore.products.entity.ProductResponse
 import org.springframework.stereotype.Service
 
@@ -47,7 +46,6 @@ class ProductsService(
         return products.map { product ->
             mapProductResponse(
                     product = product,
-                    images = productsDao.getProductImages(product.id).map(ProductImage::url),
                     inFavourites = productsFromFavourite.any { it.id == product.id },
                     inCart = productsFromCart.any { it.id == product.id }
             )
@@ -56,7 +54,6 @@ class ProductsService(
 
     private fun mapProductResponse(
             product: Product,
-            images: List<String>,
             inFavourites: Boolean,
             inCart: Boolean
     ) = ProductResponse(
@@ -66,13 +63,13 @@ class ProductsService(
             description = product.description,
             price = product.price,
             count = product.count,
-            images = images,
             inFavourites = inFavourites,
             inCart = inCart,
             material = product.material,
             color = product.color,
             width = product.width,
             height = product.height,
-            lampCount = product.lampCount
+            lampCount = product.lampCount,
+            image = product.image
     )
 }

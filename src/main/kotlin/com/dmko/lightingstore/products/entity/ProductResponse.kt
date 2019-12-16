@@ -7,12 +7,12 @@ data class ProductResponse(
         val description: String,
         val price: Float,
         val count: Int,
-        val images: List<String>,
         val inFavourites: Boolean,
         val inCart: Boolean,
         val material: String? = null,
         val color: String? = null,
         val width: String? = null,
         val height: String? = null,
-        val lampCount: Int? = null
+        val lampCount: Int? = null,
+        val image: String? = null
 )
