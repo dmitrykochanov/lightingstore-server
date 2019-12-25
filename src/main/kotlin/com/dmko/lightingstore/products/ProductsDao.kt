@@ -27,6 +27,6 @@ interface ProductsDao {
 
     @Update("""UPDATE products SET category_id = #{categoryId}, name = #{name}, description = #{description}, 
         price = #{price}, count = #{count}, material = #{material}, color = #{color}, width = #{width}, height = #{height},
-         lamp_count = #{lampCount} WHERE id=#{id}""")
+         lamp_count = #{lampCount}, image = #{image} WHERE id=#{id}""")
     fun updateProduct(productRequest: ProductRequest)
 }
