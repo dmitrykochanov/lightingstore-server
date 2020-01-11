@@ -1,5 +1,6 @@
 package com.dmko.lightingstore.orders
 
+import com.dmko.lightingstore.cart.CartDao
 import com.dmko.lightingstore.orders.entity.Order
 import com.dmko.lightingstore.orders.entity.OrderResponse
 import com.dmko.lightingstore.products.ProductsService
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*
 class OrdersController(
         private val ordersDao: OrdersDao,
         private val usersDao: UsersDao,
+        private val cartDao: CartDao,
         private val userService: UserService,
         private val productsService: ProductsService
 ) {
@@ -73,6 +75,7 @@ class OrdersController(
 
         productIds.forEach { productId ->
             ordersDao.insertProductOrder(productId, insertedOrderId)
+            cartDao.removeProduct(user.id, productId)
         }
     }
 
