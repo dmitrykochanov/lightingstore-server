@@ -13,6 +13,9 @@ interface OrdersDao {
         WHERE products_orders.order_id = #{orderId}""")
     fun getProducts(orderId: Long): List<Product>
 
+    @Select("""SELECT count FROM products_orders WHERE order_id = #{orderId} AND product_id = #{productId}""")
+    fun getProductCount(orderId: Long, productId: Long): Long
+
     @Select("SELECT * FROM orders WHERE user_id = #{userId}")
     fun getOrders(userId: Long): List<Order>
 
@@ -26,8 +29,8 @@ interface OrdersDao {
     @Options(flushCache = Options.FlushCachePolicy.TRUE)
     fun insertOrder(order: Order): Long
 
-    @Insert("INSERT INTO products_orders(product_id, order_id) VALUES(#{productId}, #{orderId})")
-    fun insertProductOrder(productId: Long, orderId: Long)
+    @Insert("INSERT INTO products_orders(product_id, order_id, count) VALUES(#{productId}, #{orderId}, #{count})")
+    fun insertProductOrder(productId: Long, orderId: Long, count: Long)
 
     @Update("UPDATE orders SET status = #{status} WHERE id = #{orderId}")
     fun updateOrderStatus(orderId: Long, status: String)

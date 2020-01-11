@@ -3,6 +3,7 @@ package com.dmko.lightingstore.products
 import com.dmko.lightingstore.cart.CartDao
 import com.dmko.lightingstore.favourite.FavouriteDao
 import com.dmko.lightingstore.orders.OrdersDao
+import com.dmko.lightingstore.orders.entity.OrderProductResponse
 import com.dmko.lightingstore.products.entity.Product
 import com.dmko.lightingstore.products.entity.ProductResponse
 import org.springframework.stereotype.Service
@@ -35,9 +36,9 @@ class ProductsService(
         return getProductResponses(userId, products)
     }
 
-    fun getProductsFromOrder(userId: Long, orderId: Long): List<ProductResponse> {
+    fun getProductsFromOrder(userId: Long, orderId: Long): List<OrderProductResponse> {
         val products = ordersDao.getProducts(orderId)
-        return getProductResponses(userId, products)
+        return getOrderProductResponses(userId, orderId, products)
     }
 
     private fun getProductResponses(userId: Long, products: List<Product>): List<ProductResponse> {
@@ -71,5 +72,41 @@ class ProductsService(
             height = product.height,
             lampCount = product.lampCount,
             image = product.image
+    )
+
+    private fun getOrderProductResponses(userId: Long, orderId: Long, products: List<Product>): List<OrderProductResponse> {
+        val productsFromCart = cartDao.getProducts(userId)
+        val productsFromFavourite = favouriteDao.getProducts(userId)
+        return products.map { product ->
+            mapOrderProductResponse(
+                    product = product,
+                    inFavourites = productsFromFavourite.any { it.id == product.id },
+                    inCart = productsFromCart.any { it.id == product.id },
+                    orderCount = ordersDao.getProductCount(orderId, product.id)
+            )
+        }
+    }
+
+    private fun mapOrderProductResponse(
+            product: Product,
+            inFavourites: Boolean,
+            inCart: Boolean,
+            orderCount: Long
+    ) = OrderProductResponse(
+            id = product.id,
+            categoryId = product.categoryId,
+            name = product.name,
+            description = product.description,
+            price = product.price,
+            count = product.count,
+            inFavourites = inFavourites,
+            inCart = inCart,
+            material = product.material,
+            color = product.color,
+            width = product.width,
+            height = product.height,
+            lampCount = product.lampCount,
+            image = product.image,
+            orderCount = orderCount
     )
 }

@@ -5,7 +5,6 @@ data class Order(
         val status: String,
         val userId: Long,
         val createDate: Long
-
 ) {
 
     companion object {

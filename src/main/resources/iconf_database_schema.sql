@@ -98,6 +98,7 @@ create table products_orders
 (
     product_id bigint,
     order_id   bigint,
+    count      bigint,
     constraint products_orders_pk primary key (product_id, order_id),
     constraint products_orders_products_fk foreign key (product_id) references products (id) on delete cascade,
     constraint products_orders_orders_fk foreign key (order_id) references orders (id) on delete cascade

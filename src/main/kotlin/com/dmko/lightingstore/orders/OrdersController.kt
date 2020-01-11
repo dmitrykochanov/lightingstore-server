@@ -3,6 +3,7 @@ package com.dmko.lightingstore.orders
 import com.dmko.lightingstore.cart.CartDao
 import com.dmko.lightingstore.orders.entity.Order
 import com.dmko.lightingstore.orders.entity.OrderResponse
+import com.dmko.lightingstore.orders.entity.ProductOrder
 import com.dmko.lightingstore.products.ProductsService
 import com.dmko.lightingstore.users.UserService
 import com.dmko.lightingstore.users.UsersDao
@@ -62,7 +63,7 @@ class OrdersController(
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
     fun insertOrder(
-            @RequestBody productIds: List<Long>,
+            @RequestBody productOrders: List<ProductOrder>,
             @AuthenticationPrincipal user: UserEntity
     ) {
         val order = Order(
@@ -73,9 +74,14 @@ class OrdersController(
         )
         val insertedOrderId = ordersDao.insertOrder(order)
 
-        productIds.forEach { productId ->
-            ordersDao.insertProductOrder(productId, insertedOrderId)
-            cartDao.removeProduct(user.id, productId)
+        productOrders.forEach { productOrder ->
+            ordersDao.insertProductOrder(productOrder.id, insertedOrderId, productOrder.count)
+
+            try {
+                cartDao.removeProduct(user.id, productOrder.id)
+            } catch (_: Throwable) {
+                // Product is not in a cart, just ignore it
+            }
         }
     }
 
