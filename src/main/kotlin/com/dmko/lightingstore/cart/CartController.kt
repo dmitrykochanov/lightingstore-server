@@ -1,6 +1,7 @@
 package com.dmko.lightingstore.cart
 
 import com.dmko.lightingstore.cart.entity.Cart
+import com.dmko.lightingstore.cart.entity.CartProductResponse
 import com.dmko.lightingstore.products.ProductsService
 import com.dmko.lightingstore.products.entity.ProductResponse
 import com.dmko.lightingstore.users.entity.UserEntity
@@ -18,7 +19,7 @@ class CartController(
     @CrossOrigin
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")
-    fun getProducts(@AuthenticationPrincipal user: UserEntity): List<ProductResponse> =
+    fun getProducts(@AuthenticationPrincipal user: UserEntity): List<CartProductResponse> =
             productsService.getProductsFromCart(user.id)
 
     @CrossOrigin
@@ -28,8 +29,14 @@ class CartController(
             @PathVariable productId: Long,
             @AuthenticationPrincipal user: UserEntity
     ) {
-        val cart = Cart(productId, user.id)
-        cartDao.insertProduct(cart)
+        val existingCart = cartDao.getCart(user.id, productId)
+        if (existingCart != null) {
+            val updatedCart = existingCart.copy(count = existingCart.count + 1)
+            cartDao.updateCartCount(updatedCart)
+        } else {
+            val newCart = Cart(productId, user.id, 1)
+            cartDao.insertProduct(newCart)
+        }
     }
 
     @CrossOrigin
@@ -39,6 +46,12 @@ class CartController(
             @PathVariable productId: Long,
             @AuthenticationPrincipal user: UserEntity
     ) {
-        cartDao.removeProduct(user.id, productId)
+        val existingCart = cartDao.getCart(user.id, productId)
+        if (existingCart != null && existingCart.count >= 2) {
+            val newCart = existingCart.copy(count = existingCart.count - 1)
+            cartDao.updateCartCount(newCart)
+        } else {
+            cartDao.removeProduct(user.id, productId)
+        }
     }
 }

@@ -70,6 +70,7 @@ create table cart
 (
     user_id    bigint,
     product_id bigint,
+    count      bigint,
     constraint cart_pk primary key (user_id, product_id),
     constraint cart_users_fk foreign key (user_id) references users (id) on delete cascade,
     constraint cart_products_fk foreign key (product_id) references products (id) on delete cascade

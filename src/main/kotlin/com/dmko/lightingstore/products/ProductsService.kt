@@ -1,6 +1,7 @@
 package com.dmko.lightingstore.products
 
 import com.dmko.lightingstore.cart.CartDao
+import com.dmko.lightingstore.cart.entity.CartProductResponse
 import com.dmko.lightingstore.favourite.FavouriteDao
 import com.dmko.lightingstore.orders.OrdersDao
 import com.dmko.lightingstore.orders.entity.OrderProductResponse
@@ -26,9 +27,9 @@ class ProductsService(
         return getProductResponses(userId, products)
     }
 
-    fun getProductsFromCart(userId: Long): List<ProductResponse> {
+    fun getProductsFromCart(userId: Long): List<CartProductResponse> {
         val products = cartDao.getProducts(userId)
-        return getProductResponses(userId, products)
+        return getCartProductResponses(userId, products)
     }
 
     fun getProductsFromFavourite(userId: Long): List<ProductResponse> {
@@ -108,5 +109,41 @@ class ProductsService(
             lampCount = product.lampCount,
             image = product.image,
             orderCount = orderCount
+    )
+
+    private fun getCartProductResponses(userId: Long, products: List<Product>): List<CartProductResponse> {
+        val productsFromCart = cartDao.getProducts(userId)
+        val productsFromFavourite = favouriteDao.getProducts(userId)
+        return products.map { product ->
+            mapCartProductResponse(
+                    product = product,
+                    inFavourites = productsFromFavourite.any { it.id == product.id },
+                    inCart = productsFromCart.any { it.id == product.id },
+                    cartCount = cartDao.getCart(userId, product.id)?.count ?: 0
+            )
+        }
+    }
+
+    private fun mapCartProductResponse(
+            product: Product,
+            inFavourites: Boolean,
+            inCart: Boolean,
+            cartCount: Long
+    ) = CartProductResponse(
+            id = product.id,
+            categoryId = product.categoryId,
+            name = product.name,
+            description = product.description,
+            price = product.price,
+            count = product.count,
+            inFavourites = inFavourites,
+            inCart = inCart,
+            material = product.material,
+            color = product.color,
+            width = product.width,
+            height = product.height,
+            lampCount = product.lampCount,
+            image = product.image,
+            cartCount = cartCount
     )
 }
